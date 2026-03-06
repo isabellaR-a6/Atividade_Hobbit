@@ -1,0 +1,617 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --gold:      #d4a843;
+  --gold-glow: #f0c96a;
+  --gold-dim:  #7a5c1a;
+  --ember:     #b84a10;
+  --cream:     #f5e8c4;
+  --parchment: #e8d5a3;
+  --dark:      #0d0a06;
+  --wood:      #2a1508;
+  --moss:      #1a3210;
+  --dark-green: #2d5a1e;
+  --earth:     #6b4c2a;
+}
+
+
+body {
+  font-family: 'Lora', serif;
+  background: var(--dark);
+  overflow-x: hidden;
+}
+
+/* comecinho */
+#Ceninha {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  background: #0e1a08;
+}
+
+#modelo3d {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  transition: filter 1.2s ease;
+}
+
+#Ceninha.zooming #modelo3d {
+  filter: brightness(4) blur(6px);
+}
+
+#btn-entrar {
+  position: absolute;
+  bottom: 7%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  font-family: "Cinzel Decorative", cursive;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #fff8e0;
+  padding: 14px 36px;
+  border-radius: 50px;
+  border: 1px solid rgba(255, 215, 60, 0.5);
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  white-space: nowrap;
+  text-shadow:
+    0 0 10px rgba(255, 215, 60, 1),
+    0 0 25px rgba(255, 175, 20, 0.8);
+  box-shadow: 0 0 20px rgba(255, 175, 20, 0.2);
+  animation: animacaotxt 2s ease-in-out infinite;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+}
+
+#btn-entrar:hover {
+  background: rgba(30, 15, 0, 0.85);
+  border-color: rgba(255, 215, 60, 0.9);
+  box-shadow: 0 0 35px rgba(255, 175, 20, 0.5);
+}
+
+#Porta-brilho {
+  position: absolute;
+  left: 63.5%;
+  top: 61%;
+  transform: translate(-50%, -50%);
+  width: 15vw;
+  height: 15vw;
+  max-width: 204px;
+  max-height: 204px;
+  min-width: 100px;
+  min-height: 100px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+#Porta-brilho::before {
+  content: "";
+  position: absolute;
+  inset: -35px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 200, 60, 0.5) 0%,
+    rgba(255, 140, 20, 0.2) 45%,
+    transparent 70%
+  );
+  filter: blur(10px);
+  animation: pulga 2s ease-in-out infinite;
+}
+
+#Porta-brilho::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 220, 80, 0.3);
+  box-shadow:
+    0 0 14px 5px rgba(255, 200, 50, 0.2),
+    inset 0 0 14px 5px rgba(255, 200, 50, 0.1);
+  animation: pulga 2s ease-in-out infinite;
+}
+
+.brilho {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(255, 235, 120, 0.95);
+  filter: blur(1px);
+  box-shadow: 0 0 6px 2px rgba(255, 210, 80, 0.8);
+  pointer-events: none;
+  animation: brilhinho var(--dur) ease-in-out infinite var(--delay);
+}
+
+#Ceninha.zooming #Porta-brilho,
+#Ceninha.zooming #msg-porta {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+#msg-porta {
+  position: absolute;
+  bottom: 7%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: "Cinzel Decorative", cursive;
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #fff8e0;
+  padding: 10px 26px;
+  border-radius: 50px;
+  backdrop-filter: blur(4px);
+  text-shadow:
+    0 0 10px rgba(255, 215, 60, 1),
+    0 0 25px rgba(255, 175, 20, 0.8),
+    0 2px 5px rgba(0, 0, 0, 1);
+  animation: animacaotxt 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Flash */
+#flash-branco {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: white;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+#flash-branco.flash { opacity: 1; }
+
+/* sitezinhooo */
+#sitezinho {
+  display: block;
+  min-height: 100vh;
+  opacity: 0;
+  position: relative;
+  isolation: isolate;
+}
+
+/* funcinho da casa */
+#sitezinho::before {
+  content: "";
+  position: fixed;
+  inset: -40px;
+  background-image: url('casa-interna.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: blur(18px) brightness(0.17) saturate(1.4);
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Névoa  sobre o fundo */
+#sitezinho::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 90% 50% at 50% 100%, rgba(160, 70, 10, 0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 15% 60%,  rgba(100, 45,  5, 0.14) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 40%,  rgba(70,  35,  3, 0.10) 0%, transparent 55%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+#sitezinho.visible {
+  animation: contentReveal 1.8s ease forwards;
+}
+
+
+.Radael {
+  padding: 100px 40px 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-top: -40px;
+}
+
+/* brilho de lareira de baixo */
+.Radael::before {
+  content: "";
+  position: absolute;
+  bottom: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px;
+  height: 350px;
+  background: radial-gradient(
+    ellipse at center bottom,
+    rgba(200, 85, 15, 0.28) 0%,
+    rgba(150, 55, 8, 0.12) 45%,
+    transparent 70%
+  );
+  filter: blur(35px);
+  pointer-events: none;
+  animation: lareira 5s ease-in-out infinite;
+}
+
+/* as runas de cima */
+.Radael::after {
+  content: none;
+
+}
+
+/* Carosel das runas de cimaaa */
+.runas {
+  position: relative;
+  width: 100%;
+  height: 22px;
+  overflow: hidden;
+  z-index: 2;
+  margin-bottom: 20px;
+  mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%);
+}
+
+.runas-inner {
+  display: flex;
+  width: max-content;
+  animation: runaCarrossel 18s linear infinite;
+}
+
+.runas-inner span {
+  white-space: nowrap;
+  font-size: 0.85rem;
+  letter-spacing: 0.6em;
+  color: rgba(212, 168, 67, 0.75);
+  text-shadow:
+    0 0 6px rgba(212, 168, 67, 0.9),
+    0 0 18px rgba(212, 168, 67, 0.6),
+    0 0 40px rgba(212, 168, 67, 0.3);
+  padding: 0 3px;
+  animation: runaBrilho 2.5s ease-in-out infinite;
+}
+
+.runas-inner span:nth-child(even) {
+  animation-delay: 1.2s;
+}
+
+@keyframes runaBrilho {
+  0%, 100% {
+    color: rgba(212, 168, 67, 0.6);
+    text-shadow:
+      0 0 4px rgba(212, 168, 67, 0.7),
+      0 0 12px rgba(212, 168, 67, 0.3),
+      0 0 25px rgba(212, 168, 67, 0.1);
+  }
+  50% {
+    color: rgba(240, 200, 90, 1);
+    text-shadow:
+      0 0 8px rgba(240, 200, 90, 1),
+      0 0 22px rgba(212, 168, 67, 0.8),
+      0 0 50px rgba(212, 168, 67, 0.5),
+      0 0 80px rgba(180, 130, 30, 0.3);
+  }
+}
+
+@keyframes runaCarrossel {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.estrelinha {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 36px;
+  font-size: 2rem;
+  letter-spacing: 1.2em;
+  font-family: 'Lora', serif;
+  color: var(--gold);
+  text-shadow:
+    0 0 12px rgba(212, 168, 67, 1),
+    0 0 30px rgba(212, 168, 67, 0.6);
+  position: relative;
+  z-index: 1;
+}
+
+.Radael h1 {
+  font-family: "Cinzel Decorative", cursive;
+  color: var(--gold);
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  text-shadow:
+    0 0 18px rgba(212, 168, 67, 0.9),
+    0 0 55px rgba(212, 168, 67, 0.3),
+    0 4px 20px rgba(0, 0, 0, 0.9);
+  margin-bottom: 22px;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.04em;
+}
+
+.Radael p {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  color: var(--cream);
+  font-size: clamp(1rem, 2.5vw, 1.22rem);
+  line-height: 1.95;
+  opacity: 0.9;
+  position: relative;
+  z-index: 1;
+  max-width: 580px;
+  margin: 0 auto;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+}
+
+/* emoji de estrela */
+.emoji {
+  text-align: center;
+  padding: 30px 20px;
+  font-size: 1.4rem;
+  letter-spacing: 1.1em;
+  color: var(--gold);
+  position: relative;
+  filter: drop-shadow(0 0 10px rgba(212, 168, 67, 0.55));
+  background: transparent;
+}
+
+.emoji::before,
+.emoji::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 26%;
+  height: 1px;
+  background: linear-gradient(to var(--dir, right), transparent, rgba(212, 168, 67, 0.35));
+}
+.emoji::before { left: 6%;  --dir: right; }
+.emoji::after  { right: 6%; --dir: left;  }
+
+/* grid dos bagulhete tdo (cuidado, risco de dar ruim) */
+.bagulhete {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 0;
+}
+
+.card {
+  padding: 54px 42px;
+  border: 1px solid rgba(212, 168, 67, 0.1);
+  position: relative;
+  transition: background 0.4s, border-color 0.4s;
+  background: rgba(10, 6, 2, 0.58);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+/* hover clarinho*/
+.card::before {
+  content: "";
+  position: absolute;
+  bottom: -60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 200px;
+  height: 120px;
+  background: radial-gradient(ellipse, rgba(180, 80, 10, 0.25) 0%, transparent 70%);
+  filter: blur(20px);
+  transition: opacity 0.5s;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ornamento do cantinho */
+.card::after {
+  content: "✦";
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-size: 0.65rem;
+  color: rgba(212, 168, 67, 0.2);
+  transition: color 0.4s, transform 0.5s;
+}
+
+.card:hover {
+  background: rgba(22, 12, 3, 0.75);
+  border-color: rgba(212, 168, 67, 0.25);
+}
+.card:hover::before { opacity: 1; }
+.card:hover::after {
+  color: rgba(212, 168, 67, 0.65);
+  transform: rotate(45deg) scale(1.3);
+}
+
+.card h3 {
+  font-family: "Cinzel Decorative", cursive;
+  color: var(--gold);
+  font-size: 1.05rem;
+  margin-bottom: 14px;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 18px rgba(212, 168, 67, 0.45);
+}
+
+.card p {
+  color: var(--parchment);
+  line-height: 1.9;
+  font-size: 0.93rem;
+  opacity: 0.8;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.85);
+}
+
+.btn-visitante {
+  display: inline-block;
+  margin-top: 24px;
+  font-family: "Cinzel Decorative", cursive;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  color: var(--gold);
+  padding: 10px 22px;
+  border: 1px solid rgba(212, 168, 67, 0.4);
+  border-radius: 50px;
+  background: rgba(0, 0, 0, 0.4);
+  text-decoration: none;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+  text-shadow: 0 0 10px rgba(212, 168, 67, 0.8);
+  box-shadow: 0 0 12px rgba(212, 168, 67, 0.1);
+}
+
+.btn-visitante:hover {
+  background: rgba(30, 15, 0, 0.75);
+  border-color: rgba(212, 168, 67, 0.9);
+  box-shadow: 0 0 25px rgba(212, 168, 67, 0.4);
+}
+
+/* Citação */
+.citacao {
+  padding: 90px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  background: rgba(5, 12, 3, 0.65);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(212, 168, 67, 0.1);
+  border-bottom: 1px solid rgba(212, 168, 67, 0.1);
+}
+
+/* brilho verde no fundo */
+.citacao::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 70% at 50% 50%,
+    rgba(20, 55, 10, 0.55) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* runas debaixo  */
+.citacao::after {
+  content: "ᚠ  ᚢ  ᚦ  ᚨ  ᚱ  ᚲ  ᚷ  ᚹ  ᚺ  ᚾ  ᛁ  ᛃ  ᛇ  ᛈ  ᛉ  ᛊ";
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.72rem;
+  letter-spacing: 0.7em;
+  color: rgba(212, 168, 67, 0.65);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+blockquote {
+  font-family: 'Lora', serif;
+  font-style: italic;
+  color: var(--cream);
+  font-size: clamp(1.15rem, 2.8vw, 1.65rem);
+  line-height: 1.9;
+  max-width: 680px;
+  margin: 0 auto 26px;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.75);
+  position: relative;
+  z-index: 1;
+}
+
+/* aspas bonitonas */
+blockquote::before {
+  content: "\201C";
+  position: absolute;
+  top: -28px;
+  left: -16px;
+  font-size: 6rem;
+  font-family: "Cinzel Decorative", cursive;
+  color: rgba(212, 168, 67, 0.1);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.autor {
+  color: var(--gold);
+  font-family: "Cinzel Decorative", cursive;
+  font-size: 0.85rem;
+  letter-spacing: 0.28em;
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 16px rgba(212, 168, 67, 0.55);
+}
+
+
+footer {
+  background: #1a1208;
+  color: var(--cream);
+  text-align: center;
+  padding: 30px;
+  font-family: "Cinzel Decorative", cursive;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  opacity: 0.7;
+}
+
+
+/* Desce a pág */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Animações de keyframe */
+@keyframes contentReveal {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes pulga {
+  0%, 100% {
+    border-color: rgba(255, 220, 80, 0.2);
+    box-shadow: 0 0 8px 3px rgba(255,200,50,0.1), inset 0 0 8px 3px rgba(255,200,50,0.05);
+  }
+  50% {
+    border-color: rgba(255, 230, 100, 0.9);
+    box-shadow: 0 0 28px 10px rgba(255,190,40,0.6), inset 0 0 20px 6px rgba(255,210,80,0.4);
+  }
+}
+
+@keyframes brilhinho {
+  0%   { opacity: 0; transform: translate(-50%,-50%) scale(0.4); }
+  25%  { opacity: 1; }
+  75%  { opacity: 0.6; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(0.1); }
+}
+
+@keyframes animacaotxt {
+  0%, 100% { transform: translateX(-50%) translateY(0);    opacity: 0.85; }
+  50%       { transform: translateX(-50%) translateY(-7px); opacity: 1; }
+}
+
+@keyframes estrelinha {
+  0%, 100% { transform: rotate(-2deg); }
+  50%       { transform: rotate(2deg); }
+}
+
+@keyframes lareira {
+  0%, 100% { opacity: 0.75; transform: translateX(-50%) scaleY(1);    }
+  50%       { opacity: 1;    transform: translateX(-50%) scaleY(1.15); }
+}
+
+/* deixa o selecionar bonitão  */
+::selection{
+  background-color: var(--gold) ;
+  color: #0e1a08;
+}

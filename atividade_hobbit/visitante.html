@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Toca do Hobbit — Experiência 3D</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0d0a06;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+    /* para ficar na tela todaa */
+    iframe {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* botãozinho de voltatr */
+    #voltar {
+      position: fixed;
+      top: 20px;
+      left: 24px;
+      z-index: 9999;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: #fff8e0;
+      padding: 10px 22px;
+      border-radius: 50px;
+      border: 1px solid rgba(255, 215, 60, 0.4);
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(8px);
+      cursor: pointer;
+      text-decoration: none;
+      text-shadow: 0 0 10px rgba(255, 215, 60, 0.9);
+      box-shadow: 0 0 14px rgba(212, 168, 67, 0.15);
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+
+    /* hoverzinho bonito */
+    #voltar:hover {
+      background: rgba(30, 15, 0, 0.85);
+      border-color: rgba(255, 215, 60, 0.9);
+      box-shadow: 0 0 28px rgba(212, 168, 67, 0.45);
+    }
+
+    #titulo {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 9999;
+      font-family: 'Cinzel Decorative', cursive;
+      font-size: clamp(0.7rem, 1.5vw, 0.9rem);
+      letter-spacing: 0.3em;
+      color: rgba(212, 168, 67, 0.7);
+      text-shadow: 0 0 14px rgba(212, 168, 67, 0.5);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+ <!-- Bagulhete 3D -->
+  <iframe
+    title="Diorama: Hobbit Home Dining"
+    frameborder="0"
+    allowfullscreen
+    mozallowfullscreen="true"
+    webkitallowfullscreen="true"
+    allow="autoplay; fullscreen; xr-spatial-tracking"
+    src="https://sketchfab.com/models/bb3fa589e30642cebcd41cd4c56df49f/embed?autostart=1&ui_theme=dark&ui_infos=0&ui_watermark=0&autospin=0">
+  </iframe>
+ 
+  <!-- Botão de voltar e as letrinhas q aparece embaixo -->
+  <a id="voltar" href="index.html">← Voltar à Toca</a>
+  <div id="titulo">❧  ᚠ  ᚢ  ✦  ᚨ  ᚱ  ᚲ  ✦  ᚷ  ᚹ  ❧</div>
+
+</body>
+</html>
